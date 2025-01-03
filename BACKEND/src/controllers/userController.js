@@ -19,7 +19,7 @@ const login = async (req,res) => {
 
         }
 
-        if(bcrypt.compare(password, user.password)) {
+        if( await bcrypt.compare(password, user.password)) {
             let token = crypto.randomBytes(20).toString("hex");
 
             user.token = token;
@@ -57,7 +57,8 @@ const register = async (req,res) => {
 
         res.status(httpStatus.CREATED).json({ message: "User Registered"});
     } catch (e) {
-        res.json({ message: `Something went wrong ${e}`})
+        
+        return res.json({ message: `Something went wrong ${e}`})
     }
 }
 
