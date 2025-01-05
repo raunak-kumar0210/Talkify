@@ -29,89 +29,40 @@ export default function Authentication() {
         setOpen(false);
     };
 
-    // let handleAuth = async () => {
-    //     try {
+    let handleAuth = async () => {
+        try {
+            // Validation
+            if (!username || !password || (formState === 1 && !name)) {
+                setError("All fields are required.");
+                return;
+            }
+            setError(""); // Reset error
 
-    //         if (formState === 0) {
-    //             let result = await handleLogin(username, password);
-                
-    //             setMessage("Login successful!");
-                
-    //         }
-    //         if (formState === 1) {
-    //             let result = await handleRegister(name, username, password);
-                
-    //             setMessage(result);
-                
-    //         }
-    //         setOpen(true);
-    //     } catch (err) {
-    //       console.error(err);
+            if (formState === 0) { // Login
+                console.log("login ")
+                await handleLogin(username, password);
+                setMessage("Login successful!");
+            } else if (formState === 1) { // Registration
+                const result = await handleRegister(name, username, password);
+                setMessage(result);
+                setUsername("");
+                setError("");
+                setOpen(true);
+                setFormState(0);
+                setPassword("");
+            }
+            
 
-    //       // Check for response and data properties safely
-    //       const errorMessage = err.response?.data?.message || "An error occurred";
-    //       throw new Error(errorMessage);
-    //     }
-    // }
+            // setOpen(true); // Show the snackbar message
 
-  //   let handleAuth = async () => {
-  //     try {
-  //         // Validation
-  //         if (!username || !password || (formState === 1 && !name)) {
-  //             setError("All fields are required.");
-  //             return;
-  //         }
-  //         setError(""); // Reset error
-  
-  //         if (formState === 0) { // Login
-  //             await handleLogin(username, password); // Call handleLogin
-  //             setMessage("Login successful!");
-  //         } else if (formState === 1) { // Registration
-  //             const result = await handleRegister(name, username, password); // Call handleRegister
-  //             setMessage(result);
-  //         }
-  
-  //         setOpen(true); // Show the snackbar message
-  //     } catch (err) {
-          
-          
-  //         // Provide feedback on the error
-  //         const errorMessage = (err.response?.data?.message) ;
-  //         setError(errorMessage); 
-  //         setOpen(true);// Display the error message to the user
-  //          // Show the snackbar for error
-  //     }
-  // };
-
-  let handleAuth = async () => {
-    try {
-        // // Validation
-        // if (!username || !password || (formState === 1 && !name)) {
-        //     setError("All fields are required.");
-        //     return;
-        // }
-        setError(""); // Reset error
-
-        if (formState === 0) { // Login
-            await handleLogin(username, password);
-            setMessage("Login successful!");
-        } else if (formState === 1) { // Registration
-            const result = await handleRegister(name, username, password);
-            setMessage(result);
+        } catch (err) {
+            
+            let errorMessage = err.message;
+            
+            setError(errorMessage); // Set the error message to display
+            setOpen(true); // Show the snackbar for error
         }
-
-        setOpen(true); // Show the snackbar message
-    } catch (err) {
-        
-        let errorMessage = err.message;
-        
-
-        setError(errorMessage); // Set the error message to display
-        setOpen(true); // Show the snackbar for error
-    }
-};
-
-  
+    };
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -154,7 +105,7 @@ export default function Authentication() {
                         </div>
 
                         <Box component="form" noValidate sx={{ mt: 1 }}>
-                            {formState === 1 && (
+                            {formState === 1 ? 
                                 <TextField
                                     margin="normal"
                                     required
@@ -162,10 +113,11 @@ export default function Authentication() {
                                     id="name"
                                     label="Full Name"
                                     name="name"
+                                    
                                     autoFocus
                                     onChange={(e) => setName(e.target.value)}
-                                />
-                            )}
+                                /> : <></> }
+                            
                             <TextField
                                 margin="normal"
                                 required
@@ -173,6 +125,7 @@ export default function Authentication() {
                                 id="username"
                                 label="Username"
                                 name="username"
+                                value={username}
                                 autoFocus
                                 onChange={(e) => setUsername(e.target.value)}
                             />
@@ -184,6 +137,7 @@ export default function Authentication() {
                                 label="Password"
                                 type="password"
                                 id="password"
+                                value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                             <p style={{ color: "red" }}>{error}</p>
