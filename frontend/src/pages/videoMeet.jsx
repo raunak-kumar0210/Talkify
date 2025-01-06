@@ -104,9 +104,36 @@ export default function VideoMeetComponent() {
         getPermissions();
     }, []);
 
+
+    let getUserMediaSuccess = (stream) => {
+        
+    }
+
+
     //TODO
     let getMessageFromServer = (fromId, message) => {
 
+        var signal = JSON.parse(message)
+
+        if (fromId !== socketIdRef.current) {
+            if (signal.sdp) {
+                connections[fromId].setRemoteDescription(new RTCSessionDescription(signal.sdp)).then(() => {
+                    if (signal.sdp.type === "offer") {
+
+                        connections[fromId].createAnswer().then((description) => {
+                            connections[fromId].setLocalDescription(description).then(() => {
+                                socketIdRef.current.emit("signal", fromId, JSON.stringify({ "sdp": connections[fromId].localDescription}))               
+                            }).catch(e => console.log(e))
+                        }).catch(e => console.log(e))
+                    }
+                }).catch(e => console.log(e))
+            }
+
+            if (signal.ice) {
+
+                connections[fromId].addIceCandidate( new RTCIceCandidate(signal.ice)).catch(e => console.log(e))
+            }
+        }
     }
 
     //TODO 
@@ -115,7 +142,7 @@ export default function VideoMeetComponent() {
     }
 
 
-    let getUserMediaSuccess = (stream) => {
+    let connectToSocketServer = (stream) => {
 
         socketRef.current = io.connect(server_url, { secure:false})
 
@@ -236,12 +263,6 @@ export default function VideoMeetComponent() {
         }
     }, [audio, video])
 
-    let connectToSocketServer = () => {
-
-        socketIdRef.current = io.connect(server_url, { secure: false})
-
-
-    }
 
     let getMedia = () => {
         setVideo(videoAvailable);
