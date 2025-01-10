@@ -68,7 +68,7 @@ export const connectToSocket = (server) => {
                     socketIdSender: socket.id,
                 });
 
-                console.log("Message received from", sender, ":", data);
+                console.log("message", matchingRoom, ":" , sender, data,);
 
                 // Send the chat message to all users in the room
                 connections[matchingRoom].forEach((elem) => {
