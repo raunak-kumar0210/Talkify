@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const withAuth = (WrapperComponent) => {
     const AuthComponent = (props) => {
-        const router = useNavigate();
+        const router = useNavigate()
 
         const isAuthenticated = () => {
             if (localStorage.getItem('token')) {
