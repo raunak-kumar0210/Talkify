@@ -56,4 +56,5 @@
 .chattingArea {
     position: absolute;
     bottom: 0;
+    padding: auto;
 }
