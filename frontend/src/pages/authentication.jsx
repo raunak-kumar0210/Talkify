@@ -31,38 +31,30 @@ export default function Authentication() {
 
     let handleAuth = async () => {
         try {
-            // Validation
-            if (!username || !password || (formState === 1 && !name)) {
-                setError("All fields are required.");
-                return;
-            }
-            setError(""); // Reset error
+            if (formState === 0) {
 
-            if (formState === 0) { // Login
-                console.log("login ")
-                await handleLogin(username, password);
-                setMessage("Login successful!");
-            } else if (formState === 1) { // Registration
-                const result = await handleRegister(name, username, password);
-                setMessage(result);
+                let result = await handleLogin(username, password)
+
+
+            }
+            if (formState === 1) {
+                let result = await handleRegister(name, username, password);
+                console.log(result);
                 setUsername("");
-                setError("");
+                setMessage(result);
                 setOpen(true);
-                setFormState(0);
-                setPassword("");
+                setError("")
+                setFormState(0)
+                setPassword("")
             }
-            
-
-            // setOpen(true); // Show the snackbar message
-
         } catch (err) {
-            
-            let errorMessage = err.message;
-            
-            setError(errorMessage); // Set the error message to display
-            setOpen(true); // Show the snackbar for error
+
+            console.log(err);
+            let message = (err.response.data.message);
+            setError(message);
         }
-    };
+    }
+
 
     return (
         <ThemeProvider theme={defaultTheme}>
@@ -96,10 +88,10 @@ export default function Authentication() {
                         </Avatar>
 
                         <div>
-                            <Button variant={formState === 0 ? "contained" : ""} onClick={() => { setFormState(0); setError(""); }}>
+                            <Button variant={formState === 0 ? "contained" : ""} onClick={() => { setFormState(0); }}>
                                 Sign In
                             </Button>
-                            <Button variant={formState === 1 ? "contained" : ""} onClick={() => { setFormState(1); setError(""); }}>
+                            <Button variant={formState === 1 ? "contained" : ""} onClick={() => { setFormState(1); }}>
                                 Sign Up
                             </Button>
                         </div>
@@ -110,10 +102,10 @@ export default function Authentication() {
                                     margin="normal"
                                     required
                                     fullWidth
-                                    id="name"
+                                    id="username"
                                     label="Full Name"
-                                    name="name"
-                                    
+                                    value={name}
+                                    name='username'
                                     autoFocus
                                     onChange={(e) => setName(e.target.value)}
                                 /> : <></> }
@@ -150,18 +142,6 @@ export default function Authentication() {
                             >
                                 {formState === 0 ? "Login" : "Register"}
                             </Button>
-                            <Grid container>
-                                <Grid item xs>
-                                    <Link href="#" variant="body2">
-                                        Forgot password?
-                                    </Link>
-                                </Grid>
-                                <Grid item>
-                                    <Link href="#" variant="body2">
-                                        {"Don't have an account? Sign Up"}
-                                    </Link>
-                                </Grid>
-                            </Grid>
                         </Box>
                     </Box>
                 </Grid>

@@ -38,7 +38,7 @@ app.post('/api/v1/users/register', async (req, res) => {
         const { name, username, password } = req.body;
         
         // Ensure proper registration logic here
-        const user = new User({ name, username, password });
+        const user = new user({ name, username, password });
         await user.save();
 
         res.status(201).json({ message: "User registered successfully!" });
