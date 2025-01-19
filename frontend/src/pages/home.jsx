@@ -10,7 +10,7 @@ import { AuthContext } from "../contexts/authContext.jsx";
 function HomeComponent() {
 
     let navigate = useNavigate();
-    const [meetingCode, setMeetingCode] = useState();
+    const [meetingCode, setMeetingCode] = useState("");
     const {addToUserHistory} = useContext(AuthContext);
 
     let handleJoinVideoCall = async () => {
@@ -23,7 +23,7 @@ function HomeComponent() {
             <div className="navBar">
                 <div style={{ display: "flex", alignItems: "center"}}>
 
-                    <h2>Talkify</h2>
+                    <h2 style={{fontSize:"40px"}}>Talkify</h2>
 
                 </div>
 
@@ -33,13 +33,17 @@ function HomeComponent() {
                             navigate("/history")
                         }
                     }>
-                        <RestoreIcon />
-                    </IconButton>
-                    <p>History</p>
+                        <RestoreIcon /><p>History</p>
 
-                    <Button onClick={() => {
+                    </IconButton>
+
+                    <Button
+                        variant="outlined" 
+                        color="error"
+                        onClick={() => {
                         localStorage.removeItem("token")
                         navigate("/auth")
+                        
                     }}>Logout</Button>
                 </div>
             </div>
@@ -47,12 +51,12 @@ function HomeComponent() {
             <div className="meetingContainer">
                 <div className="leftPanel">
                     <div>
-                        <h2>Experience the finest quality video calls!</h2>
+                        <h2 style={{fontSize:"30px"}}>Experience The Finest Quality Video Calls!</h2>
 
-                        <div style={{display: 'flex', gap: "10px"}}>
+                        <div style={{display: 'flex', gap: "10px", margin: "20px"}}>
 
-                            <TextField onChange={e => setMeetingCode(e.target.value)} id="outlined-basic" label="Meeting Code" varient="outlined"></TextField>
-                            <Button onClick={handleJoinVideoCall} varient="contained">Join Call</Button>
+                            <TextField onChange={e => setMeetingCode(e.target.value)} id="outlined-basic" label="Meeting Code" variant="outlined"></TextField>
+                            <Button onClick={handleJoinVideoCall} variant="contained">Join Call</Button>
                         </div>
                     </div>
                 </div>

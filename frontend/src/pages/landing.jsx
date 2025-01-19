@@ -1,18 +1,29 @@
 import React from "react";
 import "../App.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+
 
 function LandingPage() {
+
+    const router = useNavigate();
+
     return (
-        <div className="landingPageConatiner">
+        <div className="landingPageContainer">
             <nav>
                 <div className="navHeader">
-                    <h2>Talkify</h2>
+                    <h2 style={{color: "#FFA500"}} >Talkify</h2>
                 </div>
                 <div className="navList">
-                    <p>Join As Guest</p>
-                    <p>Register</p>
-                    <div role="button">
+                    <p onClick={() => {
+                        router("/meetingroom")
+                    }}>Join As Guest</p>
+                    <p onClick={() => {
+                        router("/auth") }}>
+                            Register</p>
+                    <div onClick={() => {
+                        router("/auth")
+                    }} role="button">
                         <p>Login</p>
                     </div>
                 </div>
@@ -30,7 +41,7 @@ function LandingPage() {
             </div>
             <div>
 
-                <img src="./mobile_img.png" alt="img"/>
+            <img src="/zoomLanding.png" alt="img" />
 
             </div>
         </div>

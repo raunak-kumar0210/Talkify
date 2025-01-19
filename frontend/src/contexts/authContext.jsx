@@ -4,13 +4,12 @@ import httpStatus from "http-status";
 
 import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-
+import server from "../environment"
 
 export const AuthContext = createContext({});
 
 const client = axios.create({
-    baseURL: 'http://localhost:8000/api/v1/users', // Backend API base URL
+    baseURL: `${server.dev}/api/v1/users` // Backend API base URL
 
 });
 
@@ -26,21 +25,20 @@ export const AuthProvider = ({children}) => {
     const handleRegister = async (name, username, password) => {
         try {
 
-            let response = await client.post("/register", {
+            let request = await client.post("/register", {
                 name: name,
                 username: username,
                 password: password
             });
     
-            console.log("Registration Response:", response);
+            console.log("Registration Response:", request);
     
-            if (response.status === httpStatus.CREATED) {
-                return response.data.message;
+            if (request.status === httpStatus.CREATED) {
+                return request.data.message;
             } 
         } catch (err) {
             throw err;
-            // console.error("Error during registration:", err);
-            // throw new Error(err.response?.data?.message || "Unknown registration error.");
+            
         }
     };
 
@@ -72,7 +70,9 @@ export const AuthProvider = ({children}) => {
                     token: localStorage.getItem("token")
                 }
             });
+            // console.log(request.data)
             return request.data
+            
         } catch(err) {
             console.error("Error fetching history:", err);
             throw err;
@@ -86,10 +86,8 @@ export const AuthProvider = ({children}) => {
                 meeting_code: meetingCode
             });
             return request
-        } catch (err) {
-            console.error("Error adding to history:", err);
-
-            throw err;
+        } catch (e) {
+            throw e;
         }
     }
 

@@ -18,6 +18,7 @@
     "http-status": "^2.0.0",
     "mongoose": "^8.9.2",
     "nodemon": "^3.1.9",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1"
   }
 }

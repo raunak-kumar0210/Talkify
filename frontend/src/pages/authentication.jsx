@@ -3,7 +3,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
+// import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -15,25 +15,27 @@ import { AuthContext } from '../contexts/authContext';
 const defaultTheme = createTheme();
 
 export default function Authentication() {
-    const [username, setUsername] = React.useState("");
-    const [password, setPassword] = React.useState("");
-    const [name, setName] = React.useState("");
-    const [error, setError] = React.useState("");
-    const [message, setMessage] = React.useState("");
+
+    const [username, setUsername] = React.useState();
+    const [password, setPassword] = React.useState();
+    const [name, setName] = React.useState();
+    const [error, setError] = React.useState();
+    const [message, setMessage] = React.useState();
     const [formState, setFormState] = React.useState(0); // 0 for login, 1 for signup
     const [open, setOpen] = React.useState(false);
     
     const { handleRegister, handleLogin } = React.useContext(AuthContext);
 
-    const handleCloseSnackbar = () => {
-        setOpen(false);
-    };
+    // const handleCloseSnackbar = () => {
+    //     setOpen(false);
+    // };
 
     let handleAuth = async () => {
         try {
             if (formState === 0) {
 
                 let result = await handleLogin(username, password)
+                console.log(result)
 
 
             }
@@ -66,13 +68,16 @@ export default function Authentication() {
                     sm={4}
                     md={7}
                     sx={{
-                        backgroundImage: 'url(https://unsplash.com/random?wallpapers)',
+                        backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
                         backgroundRepeat: 'no-repeat',
-                        backgroundColor: (t) => t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                        backgroundColor: (t) =>
+                            t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
                     }}
                 />
+                
+                
                 <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
                     <Box
                         sx={{
@@ -83,18 +88,36 @@ export default function Authentication() {
                             alignItems: 'center',
                         }}
                     >
+                        <div  className="greeting">
+                            {formState === 0 ? 
+                            (
+                                <div>
+                                    <h2>Welcome back!</h2>
+                                    <p> Let's connect and collaborate in our virtual space</p>
+                                </div>
+                                
+                                
+                            ) : (
+                                <div>
+                                    <h2>Join our community</h2>
+                                    <p>And step into a world of opportunities—connect, share, and grow with us!</p>
+                                </div>
+                            )}
+                        </div>
+                                                    
                         <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                             <LockOutlinedIcon />
                         </Avatar>
 
                         <div>
-                            <Button variant={formState === 0 ? "contained" : ""} onClick={() => { setFormState(0); }}>
+                            <Button variant={formState === 0 ? "contained" : ""} onClick={() => { setFormState(0)}}>
                                 Sign In
                             </Button>
-                            <Button variant={formState === 1 ? "contained" : ""} onClick={() => { setFormState(1); }}>
+                            <Button variant={formState === 1 ? "contained" : ""} onClick={() => { setFormState(1)}}>
                                 Sign Up
                             </Button>
                         </div>
+  
 
                         <Box component="form" noValidate sx={{ mt: 1 }}>
                             {formState === 1 ? 
@@ -145,14 +168,17 @@ export default function Authentication() {
                         </Box>
                     </Box>
                 </Grid>
+
+                
             </Grid>
 
             <Snackbar
                 open={open}
                 autoHideDuration={4000}
                 message={message}
-                onClose={handleCloseSnackbar}
+                // onClose={handleCloseSnackbar}
             />
         </ThemeProvider>
     );
+    
 }
