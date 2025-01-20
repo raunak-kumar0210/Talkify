@@ -6,7 +6,7 @@ import bcrypt from 'bcryptjs';
 import crypto from "crypto";
 import { Meeting } from "../models/meetingModel.js";
 
-const bcrypt = require('bcryptjs');
+// const bcrypt = require('bcryptjs');
 
 const login = async (req,res) => {
 
