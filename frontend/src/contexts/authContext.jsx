@@ -31,8 +31,6 @@ export const AuthProvider = ({children}) => {
                 password: password
             });
     
-            console.log("Registration Response:", request);
-    
             if (request.status === httpStatus.CREATED) {
                 return request.data.message;
             } 
@@ -49,9 +47,6 @@ export const AuthProvider = ({children}) => {
                 username: username,
                 password: password
             });
-
-            console.log(username, password)
-            console.log(request.data)
 
             if(request.status === httpStatus.OK) {
                 localStorage.setItem("token", request.data.token); 
@@ -70,7 +65,6 @@ export const AuthProvider = ({children}) => {
                     token: localStorage.getItem("token")
                 }
             });
-            // console.log(request.data)
             return request.data
             
         } catch(err) {

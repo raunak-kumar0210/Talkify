@@ -32,13 +32,11 @@ export default function Authentication() {
             if (formState === 0) {
 
                 let result = await handleLogin(username, password)
-                console.log(result)
-
-
+                // console.log(result)
             }
             if (formState === 1) {
                 let result = await handleRegister(name, username, password);
-                console.log(result);
+                // console.log(result);
                 setUsername("");
                 setMessage(result);
                 setOpen(true);

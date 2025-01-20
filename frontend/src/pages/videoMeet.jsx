@@ -61,7 +61,6 @@ export default function VideoMeetComponent() {
  
 
   useEffect(() => {
-      console.log("HELLO");
       getPermissions();
   }, []); 
 
@@ -73,10 +72,10 @@ export default function VideoMeetComponent() {
 
       if (videoPermission) {
         setVideoAvailable(true);
-        console.log('Video permission granted');
+        // console.log('Video permission granted');
       } else {
         setVideoAvailable(false);
-        console.log('Video permission denied');
+        // console.log('Video permission denied');
       }
 
       const audioPermission = await navigator.mediaDevices.getUserMedia({
@@ -85,10 +84,10 @@ export default function VideoMeetComponent() {
 
       if (audioPermission) {
         setAudioAvailable(true);
-        console.log('Audio permission granted');
+        // console.log('Audio permission granted');
       } else {
         setAudioAvailable(false);
-        console.log('Audio permission denied');
+        // console.log('Audio permission denied');
       }
 
       if (navigator.mediaDevices.getDisplayMedia) {
@@ -213,13 +212,13 @@ export default function VideoMeetComponent() {
         connections[fromId]
           .setRemoteDescription(new RTCSessionDescription(signal.sdp))
           .then(() => {
-            console.log(`Set remote description for ${fromId}`, signal.sdp);
+            // console.log(`Set remote description for ${fromId}`, signal.sdp);
             if (signal.sdp.type === "offer") {
               
               connections[fromId]
                 .createAnswer()
                 .then((description) => {
-                  console.log(`Created answer for ${fromId}`, description);
+                  // console.log(`Created answer for ${fromId}`, description);
                   return connections[fromId].setLocalDescription(description)
                 })
                 .then(() => {
@@ -274,14 +273,14 @@ export default function VideoMeetComponent() {
 
                 // Wait for their video stream
                 connections[socketListId].onaddstream = (event) => {
-                    console.log("BEFORE:", videoRef.current);
-                    console.log("FINDING ID: ", socketListId);
+                    // console.log("BEFORE:", videoRef.current);
+                    // console.log("FINDING ID: ", socketListId);
 
                     let videoExists = videoRef.current.find(video => video.socketId === socketListId);
 
                     if (videoExists) {
-                        console.log("FOUND EXISTING");
 
+                        // console.log("FOUND EXISTING");
                         // Update the stream of the existing video
                         setVideos(videos => {
                             const updatedVideos = videos.map(video =>
@@ -293,7 +292,7 @@ export default function VideoMeetComponent() {
                     } else {
 
                         // Create a new video
-                        console.log("CREATING NEW");
+                        // console.log("CREATING NEW");
                         let newVideo = {
                             socketId: socketListId,
                             stream: event.stream,
@@ -365,7 +364,7 @@ export default function VideoMeetComponent() {
   useEffect(() => {
     if (video !== undefined && audio !== undefined) {
       getUserMedia();
-      console.log("SET STATE HAS ", video, audio);
+      // console.log("SET STATE HAS ", video, audio);
     }
   }, [audio, video]);
 

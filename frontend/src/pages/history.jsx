@@ -22,7 +22,7 @@ export default function History() {
         const fetchHistory = async () => {
             try {
                 const history = await getHistoryOfUser();
-                console.log("Fetched history:", history);
+                // console.log("Fetched history:", history);
                 
                 setMeetings(history);
             } catch (err) {

@@ -70,7 +70,6 @@ const register = async (req,res) => {
 const getUserHistory = async (req,res) => {
     const {token} = req.query;
     
-    // console.log(token)
 
     try {
         const user = await User.findOne({token: token});

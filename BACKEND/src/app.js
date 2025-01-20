@@ -23,10 +23,10 @@ const start = async () => {
     app.set("mongo_user")
 
     const connectionDb = await mongoose.connect("mongodb+srv://raunakjsr0210:abcd1234@raunak.ibujr.mongodb.net/");
-    console.log(`MONGO Connected to DB Host: ${connectionDb.connection.host}`)
+    // console.log(`MONGO Connected to DB Host: ${connectionDb.connection.host}`)
 
     server.listen(app.get("port"), ()=> {
-        console.log("Listening on port 8000")
+        // console.log("Listening on port 8000")
     });
 }
 
