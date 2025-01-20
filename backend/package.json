@@ -8,9 +8,7 @@
     "start": "node src/app.js",
     "prod": "pm2 src/app.js"
   },
-  "engines": {
-    "node": "18.0.0"
-  },
+  
   "author": "Raunak Kumar",
   "license": "ISC",
   "description": "",
