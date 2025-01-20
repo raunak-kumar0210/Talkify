@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #f4f4f9;
+    background-color: white;
     height: 100vh;
     padding: 20px;
   }
@@ -24,8 +24,8 @@
   }
   
   .meetUserVideo {
-    width: 300px;
-    height: 200px;
+    width: 400px;
+    height: 300px;
     border-radius: 8px;
     border: 2px solid #007bff;
     margin-top: 20px;
@@ -52,6 +52,11 @@
     height: 100%;
     padding: 10px;
   }
+
+  .chatNav {
+    display: flex;
+    justify-content: space-between;
+  }
   
   .chattingDisplay {
     flex: 1;
@@ -75,6 +80,7 @@
   
   h2, h1, p {
     margin: 0;
+    
   }
   
   .chatRoom h1 {
@@ -101,12 +107,16 @@
     outline: none;
   }
   
+  .largeButton {
+    font-size: 10rem;
+  }
+  
   .MuiBadge-badge {
     background-color: orange;
     color: white;
+    
   }
   
   .IconButton:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgb(1, 1, 12);
   }
-  

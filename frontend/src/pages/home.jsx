@@ -33,7 +33,7 @@ function HomeComponent() {
                             navigate("/history")
                         }
                     }>
-                        <RestoreIcon /><p>History</p>
+                        <RestoreIcon /><p style={{padding: "10px"}}>History</p>
 
                     </IconButton>
 

@@ -14,6 +14,7 @@ import StopScreenShareIcon from '@mui/icons-material/StopScreenShare';
 import ChatIcon from '@mui/icons-material/Chat';
 import { useNavigate } from "react-router-dom";
 import server from "../environment"
+import CloseIcon from '@mui/icons-material/Close';
 
 const server_url = server.dev;
 
@@ -60,10 +61,9 @@ export default function VideoMeetComponent() {
  
 
   useEffect(() => {
-    console.log("HELLO")
-    getPermissions();
-
-},[])
+      console.log("HELLO");
+      getPermissions();
+  }, []); 
 
   const getPermissions = async () => {
     try {
@@ -213,36 +213,37 @@ export default function VideoMeetComponent() {
         connections[fromId]
           .setRemoteDescription(new RTCSessionDescription(signal.sdp))
           .then(() => {
+            console.log(`Set remote description for ${fromId}`, signal.sdp);
             if (signal.sdp.type === "offer") {
+              
               connections[fromId]
                 .createAnswer()
                 .then((description) => {
-                  connections[fromId]
-                    .setLocalDescription(description)
-                    .then(() => {
-                      socketRef.current.emit(
-                        "signal",
-                        fromId,
-                        JSON.stringify({
-                          sdp: connections[fromId].localDescription,
-                        })
-                      );
+                  console.log(`Created answer for ${fromId}`, description);
+                  return connections[fromId].setLocalDescription(description)
+                })
+                .then(() => {
+                  socketRef.current.emit(
+                    "signal",
+                    fromId,
+                    JSON.stringify({
+                      sdp: connections[fromId].localDescription,
                     })
-                    .catch((e) => console.log(e));
+                  );
                 })
                 .catch((e) => console.log(e));
-            }
-          })
-          .catch((e) => console.log(e));
-      }
+              }
+            })
+            .catch((e) => console.log(e));
+        }
 
-      if (signal.ice) {
-        connections[fromId]
-          .addIceCandidate(new RTCIceCandidate(signal.ice))
-          .catch((e) => console.log(e));
+        if (signal.ice) {
+          connections[fromId]
+            .addIceCandidate(new RTCIceCandidate(signal.ice))
+            .catch((e) => console.log(e));
+        }
       }
-    }
-  };
+    };
 
 
   let connectToSocketServer = () => {
@@ -522,7 +523,10 @@ export default function VideoMeetComponent() {
           {showModal ? 
           <div className={styles.chatRoom}>
             <div className={styles.chatConatiner}>
-              <h1>Chat</h1>
+              <div className={styles.chatNav}>
+                <h1>Chat</h1>
+                <CloseIcon onClick = {() => setModal(!showModal)}/>
+              </div>
               
               <div className={styles.chattingDisplay}>
                 { messages.length !== 0 ? messages.map((item, index) => {
@@ -548,23 +552,23 @@ export default function VideoMeetComponent() {
           </div> : <></> }
 
           <div className={styles.buttonContainer}>
-            <IconButton onClick={handleVideo} >
+            <IconButton onClick={handleVideo} className={styles.largeButton}>
               {(video === true) ? <VideocamIcon/> : <VideocamOffIcon/>}
             </IconButton >
-            <IconButton onClick={handleEndCall} style={{color: "red"}}>
+            <IconButton onClick={handleEndCall} style={{color: "red"}} className={styles.largeButton}>
               <CallEndIcon></CallEndIcon>
             </IconButton>
-            <IconButton onClick={handleAudio} >
+            <IconButton onClick={handleAudio} className={styles.largeButton}>
               {audio === true ? <MicIcon /> : <MicOffIcon />}
             </IconButton>
 
             {screenAvailable === true ? 
-            <IconButton onClick={handleScreen}>
+            <IconButton onClick={handleScreen} className={styles.largeButton}>
               {screen === true ? <ScreenShareIcon /> : <StopScreenShareIcon />}
             </IconButton> : <></>} 
 
-          <Badge badgeContent={newMessages} max={999} color="orange">
-            <IconButton onClick = {() => setModal(!showModal)}>
+          <Badge badgeContent={newMessages} max={999} >
+            <IconButton onClick = {() => setModal(!showModal)} className={styles.largeButton}>
               <ChatIcon />
             </IconButton>
           </Badge>
@@ -572,11 +576,12 @@ export default function VideoMeetComponent() {
           </div>
 
           <video className={styles.meetUserVideo} ref={localVideoRef} autoPlay muted></video>
+          <h2>{video.username}</h2>
 
           <div className = {styles.conferenceView} >
             {videos.map((video, index) => (
               <div  key={`${video.socketId}-${index}`}>
-                <h2>{video.username}</h2>
+                
 
                 <video
                   data-socket={video.socketId}
@@ -587,6 +592,7 @@ export default function VideoMeetComponent() {
                   }}
                   autoPlay
                 ></video>
+                <h2>{video.username}</h2>
 
               </div>
 
