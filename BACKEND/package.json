@@ -8,11 +8,14 @@
     "start": "node src/app.js",
     "prod": "pm2 src/app.js"
   },
+  "engines": {
+    "node": ">=18.x"
+  },
   "author": "Raunak Kumar",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "crypto": "^1.0.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
