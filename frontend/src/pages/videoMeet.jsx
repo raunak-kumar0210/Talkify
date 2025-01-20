@@ -16,7 +16,7 @@ import { useNavigate } from "react-router-dom";
 import server from "../environment"
 import CloseIcon from '@mui/icons-material/Close';
 
-const server_url = server.dev;
+const server_url = server;
 
 var connections = {};
 
